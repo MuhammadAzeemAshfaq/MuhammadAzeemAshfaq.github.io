@@ -1,79 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QA Bug Logger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 0;
-      background: #fff;
-      color: #333;
-    }
-    header {
-      background: #e6f2da;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #cbdaba;
-    }
-    header h1 {
-      margin: 0;
-    }
-    main {
-      padding: 30px 20px;
-    }
-    a {
-      color: #0b70b9;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QA Bug Logger - Professional bug tracking Chrome extension with screenshot annotation, Google Drive integration, and Google Sheets logging.">
+    <title>QA Bug Logger - Professional Bug Tracking for QA Teams</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fbfcf7;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #d7e6c5 0%, #c5d9b3 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 3px solid #838a7c;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #2d3a2e;
+        }
+
+        header .tagline {
+            font-size: 24px;
+            color: #4d5a4e;
+            margin-bottom: 30px;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #838a7c 0%, #6d7469 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(131, 138, 124, 0.3);
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(131, 138, 124, 0.5);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Section */
+        section {
+            padding: 60px 20px;
+        }
+
+        section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #2d3a2e;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #838a7c;
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .feature h3 {
+            color: #838a7c;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .feature p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .step {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #838a7c 0%, #6d7469 100%);
+            color: white;
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            color: #2d3a2e;
+            margin-bottom: 15px;
+        }
+
+        /* Data Usage Section */
+        .data-usage {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid #d7e6c5;
+        }
+
+        .data-usage h3 {
+            color: #838a7c;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .data-usage ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-usage li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .data-usage li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #838a7c;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Privacy Highlight */
+        .privacy-highlight {
+            background: linear-gradient(135deg, #eef4e8 0%, #e3edd9 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            border-left: 5px solid #838a7c;
+        }
+
+        .privacy-highlight h3 {
+            color: #2d3a2e;
+            margin-bottom: 20px;
+        }
+
+        .privacy-highlight p {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Screenshots */
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .screenshot {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .screenshot img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #d7e6c5;
+        }
+
+        .screenshot p {
+            margin-top: 15px;
+            text-align: center;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3a2e;
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #d7e6c5;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #b8c9a7;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: #d7e6c5;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #4d5a4e;
+            color: #b8c9a7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 36px;
+            }
+            
+            header .tagline {
+                font-size: 18px;
+            }
+
+            .features,
+            .steps,
+            .screenshots {
+                grid-template-columns: 1fr;
+            }
+
+            section h2 {
+                font-size: 28px;
+            }
+        }
+
+        /* Verification Badge */
+        .verified-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <h1>🐞 QA Bug Logger</h1>
+        <p class="tagline">Professional Bug Tracking Made Simple</p>
+        <p style="color: #4d5a4e; margin-bottom: 30px;">Chrome extension for QA teams and testers</p>
+        <a href="https://chrome.google.com/webstore/detail/jfhbdjhhmmnbnehgpnacddpejgegeaip" class="cta-primary">
+            Install from Chrome Web Store
+        </a>
+    </header>
 
-  <header>
-    <h1>QA Bug Logger</h1>
-  </header>
+    <!-- What is QA Bug Logger -->
+    <section class="container">
+        <h2>What is QA Bug Logger?</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 18px; color: #555; line-height: 1.8;">
+            <p>QA Bug Logger is a Chrome extension that helps QA teams and testers document, track, and manage bugs efficiently. Capture screenshots, annotate issues, and automatically save bug reports to your Google Sheets with screenshots stored in Google Drive.</p>
+            <div class="verified-badge">✓ Verified by Google</div>
+        </div>
+    </section>
 
-  <main>
-    <h2>About QA Bug Logger</h2>
-    <p>
-      QA Bug Logger is a Chrome extension designed to help QA engineers,
-      developers, and testers quickly log bugs directly from any web page.
-      It captures bug details like description, screenshot, category, severity,
-      and environment. All bugs are stored in Google Sheets and Google Drive
-      for easy tracking and reporting.
-    </p>
+    <!-- Features -->
+    <section class="container" id="key-features">
+        <h2>Key Features</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>📸 Screenshot & Annotate</h3>
+                <p>Capture any webpage and use built-in annotation tools to highlight bugs with pen, highlighter, arrows, and rectangles. Make issues crystal clear for your development team.</p>
+            </div>
+            <div class="feature">
+                <h3>☁️ Google Drive Integration</h3>
+                <p>Screenshots are automatically uploaded to your Google Drive folder. Organize bug evidence in one centralized, shareable location that your entire team can access.</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Google Sheets Logging</h3>
+                <p>Bug details (description, severity, category, device, browser) are automatically saved to your Google Sheet. Track all bugs in a structured, sortable, and filterable format.</p>
+            </div>
+            <div class="feature">
+                <h3>🎨 Customizable Categories</h3>
+                <p>Choose from 44+ bug categories including CrossBrowser, Responsive, Layout, API, Performance, and Accessibility issues. Categorize bugs with precision.</p>
+            </div>
+            <div class="feature">
+                <h3>⚙️ Flexible Configuration</h3>
+                <p>Use your own Google Sheet and Drive folder. Full control over your data storage. Quick setup with one-click creation of pre-formatted sheets and folders.</p>
+            </div>
+            <div class="feature">
+                <h3>🔒 Privacy First</h3>
+                <p>Your data stays in YOUR Google account. We never access, store, or share your bug reports or screenshots. Complete data privacy and ownership.</p>
+            </div>
+        </div>
+    </section>
 
-    <h3>Key Features</h3>
-    <ul>
-      <li>Capture bugs from any website</li>
-      <li>Automatic screenshot capture</li>
-      <li>Store bug details in Google Sheets</li>
-      <li>Save screenshots to Google Drive</li>
-      <li>Filter bugs by severity, category, browser, and device</li>
-    </ul>
+    <!-- How It Works -->
+    <section class="container" id="how-it-works" style="background: white; border-radius: 12px; padding: 60px 40px;">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Install Extension</h3>
+                <p>Add QA Bug Logger to Chrome from the Web Store. One-click installation.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Configure Settings</h3>
+                <p>Set up your Google Sheet and Drive folder, or create new ones with our quick setup tool.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Grant Permissions</h3>
+                <p>Authorize access to your Google Sheets and Drive (one-time setup).</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Log Bugs</h3>
+                <p>Click the extension icon, describe the bug, capture and annotate a screenshot.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Auto-Save</h3>
+                <p>Bug details save to your Sheet, screenshot uploads to Drive. Done!</p>
+            </div>
+        </div>
+    </section>
 
-    <p>
-      For details on how your information is used, please view our 
-      <a href="https://muhammadazeemashfaq.github.io/qa-bug-logger-privacy/" target="_blank">
-        Privacy Policy
-      </a>.
-    </p>
-  </main>
+    <!-- Data Usage - REQUIRED -->
+    <section class="container" id="data-usage">
+        <h2>How We Use Your Data</h2>
+        <div class="data-usage">
+            <h3>🔐 Your Data, Your Control</h3>
+            <p style="margin-bottom: 20px; color: #555;">QA Bug Logger is designed with privacy as the top priority. Here's exactly what happens with your data:</p>
+            
+            <ul>
+                <li><strong>Screenshots:</strong> Captured locally and uploaded directly to YOUR Google Drive folder. We never see or store them.</li>
+                <li><strong>Bug Reports:</strong> Saved directly to YOUR Google Sheet. We never access or store your bug data.</li>
+                <li><strong>Google Account Access:</strong> Only used to upload files to your Drive and append rows to your Sheet. No other Google data is accessed.</li>
+                <li><strong>No Third-Party Servers:</strong> All data flows directly from your browser to Google's servers. No intermediary storage.</li>
+                <li><strong>No Analytics or Tracking:</strong> We don't track your usage, collect analytics, or share any information with third parties.</li>
+                <li><strong>Local Storage Only:</strong> Your Sheet and Drive folder preferences are stored locally in Chrome. Never sent to our servers.</li>
+            </ul>
+        </div>
 
-  <footer>
-    © 2026 QA Bug Logger
-  </footer>
+        <div class="privacy-highlight">
+            <h3>🛡️ Privacy Commitment</h3>
+            <p><strong>We request Google Sheets and Google Drive permissions for one purpose only:</strong> to save your bug reports to your own Google account. Your data never leaves your control. You can revoke access at any time through your Google Account settings.</p>
+            <p style="margin-top: 15px;"><a href="https://muhammadazeemashfaq.github.io/qa-bug-logger-privacy/" style="color: #838a7c; font-weight: 600; text-decoration: none;">Read our full Privacy Policy →</a></p>
+        </div>
+    </section>
 
+    <!-- Domain Ownership -->
+    <section class="container">
+        <div style="background: #f0f4ff; padding: 30px; border-radius: 12px; border-left: 5px solid #2196f3;">
+            <h3 style="color: #1976d2; margin-bottom: 15px;">🌐 Verified Domain Owner</h3>
+            <p style="color: #555;">This website and QA Bug Logger extension are owned and operated by Muhammad Azeem Ashfaq (azeem.qa57@gmail.com). Domain ownership verified through Google Cloud Console.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="https://chrome.google.com/webstore/detail/jfhbdjhhmmnbnehgpnacddpejgegeaip">Install Extension</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="https://muhammadazeemashfaq.github.io/qa-bug-logger-privacy/">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="mailto:azeem.qa57@gmail.com">Contact Us</a></li>
+                    <li>Email: azeem.qa57@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Developer</h4>
+                <ul>
+                    <li>Muhammad Azeem Ashfaq</li>
+                    <li>Professional QA Engineer</li>
+                    <li><a href="mailto:azeem.qa57@gmail.com">azeem.qa57@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 QA Bug Logger. All rights reserved.</p>
+            <p style="margin-top: 10px;">Built with ❤️ for QA teams worldwide</p>
+        </div>
+    </footer>
 </body>
 </html>
